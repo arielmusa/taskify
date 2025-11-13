@@ -1,11 +1,19 @@
 import { pool } from "../config/db.js";
-import { AppError } from "../middleware/error.middleware.js";
+import { AppError } from "./error.middleware.js";
 
 export const authorizeTenantAccess = async (req, res, next) => {
   const { tenantId } = req.params;
   const userId = req.user.id;
 
   try {
+    if (!tenantId) {
+      return next(new AppError(400, "Tenant ID is required"));
+    }
+
+    if (isNaN(tenantId)) {
+      return next(new AppError(400, "Tenant ID must be a valid number"));
+    }
+
     // Check if the tenant exists
     const [tenantRows] = await pool.execute(
       `SELECT id FROM tenants WHERE id = ? LIMIT 1`,

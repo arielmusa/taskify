@@ -2,9 +2,10 @@ import { pool } from "../config/db.js";
 import { AppError } from "../middleware/error.middleware.js";
 
 /**
- * * Get all projects for a specific tenant.
- * * @route GET /api/tenants/:tenantId/projects
- * * * @access Private
+ * Get all projects for a specific tenant.
+ *
+ * @route GET /api/tenants/:tenantId/projects
+ * @access Private
  */
 
 export const index = async (req, res, next) => {
@@ -30,9 +31,10 @@ export const index = async (req, res, next) => {
 };
 
 /**
- * * Get project details by ID for a specific tenant.
- * * @route GET /api/tenants/:tenantId/projects/:projectId
- * * * @access Private
+ * Get project details by ID for a specific tenant.
+ *
+ * @route GET /api/tenants/:tenantId/projects/:projectId
+ * @access Private
  */
 
 export const show = async (req, res, next) => {
@@ -59,9 +61,10 @@ export const show = async (req, res, next) => {
 };
 
 /**
- * * Create a new project for a specific tenant.
- * * @route POST /api/tenants/:tenantId/projects
- * * * @access Private
+ * Create a new project for a specific tenant.
+ *
+ * @route POST /api/tenants/:tenantId/projects
+ * @access Private
  */
 
 export const store = async (req, res, next) => {
