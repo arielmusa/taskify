@@ -1,7 +1,13 @@
 import { pool } from "../config/db.js";
 import { AppError } from "../middleware/error.middleware.js";
 
-export const indexProject = async (req, res, next) => {
+/**
+ * * Get all projects for a specific tenant.
+ * * @route GET /api/tenants/:tenantId/projects
+ * * * @access Private
+ */
+
+export const index = async (req, res, next) => {
   const userId = req.user.id;
   const { tenantId } = req.params;
   try {
@@ -23,7 +29,13 @@ export const indexProject = async (req, res, next) => {
   }
 };
 
-export const showProject = async (req, res, next) => {
+/**
+ * * Get project details by ID for a specific tenant.
+ * * @route GET /api/tenants/:tenantId/projects/:projectId
+ * * * @access Private
+ */
+
+export const show = async (req, res, next) => {
   const { tenantId, projectId } = req.params;
   const userId = req.user.id;
 
@@ -46,7 +58,13 @@ export const showProject = async (req, res, next) => {
   }
 };
 
-export const storeProject = async (req, res, next) => {
+/**
+ * * Create a new project for a specific tenant.
+ * * @route POST /api/tenants/:tenantId/projects
+ * * * @access Private
+ */
+
+export const store = async (req, res, next) => {
   const { tenantId } = req.params;
   const { name, description } = req.body;
 
