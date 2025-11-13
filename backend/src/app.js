@@ -6,6 +6,7 @@ import { testConnection } from "./config/db.js";
 
 // Import routes
 import authRoutes from "./routes/auth.routes.js";
+import tenantRoutes from "./routes/tenant.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 
 // Use routes
 app.use("/api/auth", authRoutes);
+app.use("/api/tenants", tenantRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {
