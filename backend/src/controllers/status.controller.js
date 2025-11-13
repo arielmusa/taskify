@@ -14,7 +14,7 @@ export const index = async (req, res, next) => {
     // Fetch status associated with the project
     const [rows] = await pool.execute(
       `SELECT id, name, color, position, created_at, updated_at
-         FROM statuses
+         FROM task_statuses
          WHERE project_id = ?
          ORDER BY position ASC`,
       [projectId]
@@ -51,7 +51,7 @@ export const store = async (req, res, next) => {
     // Fetch the newly created status
     const [rows] = await pool.execute(
       `SELECT id, name, color, position, created_at, updated_at
-         FROM statuses
+         FROM task_statuses
          WHERE id = ?`,
       [result.insertId]
     );

@@ -62,7 +62,7 @@ export const show = async (req, res, next) => {
 
 /**
  * Create a new project for a specific tenant.
- *
+ * Seeds default task statuses upon creation.
  * @route POST /api/tenants/:tenantId/projects
  * @access Private
  */
@@ -83,6 +83,19 @@ export const store = async (req, res, next) => {
     );
 
     const projectId = projectResult.insertId;
+
+    const defaultStatuses = [
+      { name: "To Do", color: "#FF0000", position: 1 },
+      { name: "In Progress", color: "#00FF00", position: 2 },
+      { name: "Done", color: "#0000FF", position: 3 },
+    ];
+
+    for (const status of defaultStatuses) {
+      await pool.execute(
+        `INSERT INTO task_statuses (project_id, name, color, position) VALUES (?, ?, ?, ?)`,
+        [projectId, status.name, status.color, status.position]
+      );
+    }
 
     res.status(201).json({ id: projectId, name, description });
   } catch (error) {
