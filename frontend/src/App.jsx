@@ -3,6 +3,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import TenantsPage from "./pages/TenantsPage";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       {/* Protected routes */}
       <Route element={<PrivateRoute />}>
         <Route element={<DefaultLayout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<TenantsPage />} />
+          <Route path="tenants" element={<TenantsPage />} />
         </Route>
       </Route>
     </Routes>
