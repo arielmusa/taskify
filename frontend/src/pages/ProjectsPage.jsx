@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { getProjects, createProject } from "../api/projects";
 
 export default function ProjectsPage() {
@@ -72,12 +73,12 @@ export default function ProjectsPage() {
               <strong>{p.name}</strong>
               <p className="m-0 text-muted">{p.description}</p>
             </div>
-            <a
+            <Link
               className="btn btn-outline-secondary"
-              href={`/tenants/${tenantId}/projects/${p.id}`}
+              to={`/tenants/${tenantId}/projects/${p.id}`}
             >
               Open
-            </a>
+            </Link>
           </div>
         ))}
       </div>
