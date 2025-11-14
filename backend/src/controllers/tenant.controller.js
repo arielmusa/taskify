@@ -136,11 +136,30 @@ export const addUserToTenant = async (req, res, next) => {
 
     const userId = userRows[0].id;
 
+    // Ensure requester belongs to the tenant
+    const [membership] = await pool.query(
+      `SELECT role_id FROM user_tenants 
+   WHERE user_id = ? AND tenant_id = ?`,
+      [req.user.id, tenantId]
+    );
+
+    if (membership.length === 0) {
+      throw new AppError(403, "You are not part of this tenant");
+    }
+
+    // Ensure requester is admin of the tenant
+    const isAdmin = membership[0].role_id === 1; // admin role
+    if (!isAdmin) {
+      throw new AppError(
+        403,
+        "Only tenant admins can add users to this tenant"
+      );
+    }
+
     // Default role: member (id=3)
     const assignedRole = role_id ?? 3;
 
     // Insert into user_tenants
-    // UNIQUE (user_id, tenant_id) eviterà duplicati
     await pool.query(
       `INSERT INTO user_tenants (user_id, tenant_id, role_id)
        VALUES (?, ?, ?)`,
