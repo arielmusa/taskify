@@ -7,7 +7,7 @@ import { AppError } from "../middleware/error.middleware.js";
  * @access Private
  * */
 export const index = async (req, res, next) => {
-  const { projectId } = req.params;
+  const projectId = Number(req.params.projectId);
 
   try {
     // Fetch tasks associated with the project
@@ -80,7 +80,7 @@ export const show = async (req, res, next) => {
  * @access Private
  */
 export const store = async (req, res, next) => {
-  const { projectId } = req.params;
+  const projectId = Number(req.params.projectId);
   const { title, description, status_id } = req.body;
 
   try {
@@ -127,6 +127,10 @@ export const store = async (req, res, next) => {
       [result.insertId]
     );
 
+    if (req.io) {
+      req.io.to(`project_${projectId}`).emit("taskCreated", rows[0]);
+    }
+
     res.status(201).json(rows[0]);
   } catch (error) {
     next(error);
@@ -134,12 +138,15 @@ export const store = async (req, res, next) => {
 };
 
 /**
+<<<<<<< Updated upstream
+=======
  * Update a task in a project
  * @route PUT /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
  */
 export const update = async (req, res, next) => {
-  const { projectId, taskId } = req.params;
+  const projectId = Number(req.params.projectId);
+  const taskId = Number(req.params.taskId);
   const { title, description, status_id } = req.body;
 
   try {
@@ -173,7 +180,7 @@ export const update = async (req, res, next) => {
              status_id = COALESCE(?, status_id),
              updated_at = NOW()
          WHERE id = ? AND project_id = ?`,
-      [title, description, status_id, taskId, projectId]
+      [title ?? null, description ?? null, status_id ?? null, taskId, projectId]
     );
 
     // Fetch the updated task
@@ -183,6 +190,11 @@ export const update = async (req, res, next) => {
          WHERE id = ?`,
       [taskId]
     );
+
+    if (req.io) {
+      req.io.to(`project_${projectId}`).emit("taskUpdated", rows[0]);
+    }
+
     res.json(rows[0]);
   } catch (error) {
     next(error);
@@ -190,12 +202,14 @@ export const update = async (req, res, next) => {
 };
 
 /**
+>>>>>>> Stashed changes
  * Delete a task from a project
  * @route DELETE /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
  */
 export const destroy = async (req, res, next) => {
-  const { projectId, taskId } = req.params;
+  const projectId = Number(req.params.projectId);
+  const taskId = Number(req.params.taskId);
 
   try {
     // Delete the task
@@ -206,6 +220,10 @@ export const destroy = async (req, res, next) => {
 
     if (result.affectedRows === 0) {
       return next(new AppError(404, "Task not found"));
+    }
+
+    if (req.io) {
+      req.io.to(`project_${projectId}`).emit("taskDeleted", { id: taskId });
     }
 
     res.status(204).send();
