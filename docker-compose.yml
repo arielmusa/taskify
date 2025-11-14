@@ -2,7 +2,7 @@ services:
   db:
     image: mysql:8
     container_name: plaza_db
-    env_file: ./backend/.env.example
+    env_file: ./backend/.env
     ports:
       - "3306:3306"
     volumes:
@@ -19,7 +19,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: plaza_backend
-    env_file: ./backend/.env.example
+    env_file: ./backend/.env
     volumes:
       - ./backend:/app
       - /app/node_modules
