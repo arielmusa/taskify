@@ -5,6 +5,11 @@ import { AppError } from "../middleware/error.middleware.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/**
+ * Register a new user.
+ * @route POST /api/auth/register
+ * @access Public
+ */
 export const register = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -29,16 +34,33 @@ export const register = async (req, res, next) => {
       "INSERT INTO users (email, password) VALUES (?, ?)",
       [email, hashedPassword]
     );
+
+    const user = {
+      id: result.insertId,
+      email,
+    };
+
+    //Generate JWT
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: "2h",
+    });
+
     // Respond with success
     res.status(201).json({
       message: "User registered successfully",
-      userId: result.insertId,
+      user,
+      token,
     });
   } catch (error) {
     next(error);
   }
 };
 
+/**
+ * Login a user.
+ * @route POST /api/auth/login
+ * @access Public
+ */
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -80,6 +102,11 @@ export const login = async (req, res, next) => {
   }
 };
 
+/**
+ * Get user profile.
+ * @route GET /api/auth/profile
+ * @access Private
+ */
 export const getProfile = async (req, res, next) => {
   const userId = req.user.id;
   try {
