@@ -138,22 +138,13 @@ export const store = async (req, res, next) => {
 };
 
 /**
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
  * Update a task in a project
  * @route PUT /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
  */
 export const update = async (req, res, next) => {
-<<<<<<< Updated upstream
-  const { projectId, taskId } = req.params;
-=======
   const projectId = Number(req.params.projectId);
   const taskId = Number(req.params.taskId);
->>>>>>> Stashed changes
   const { title, description, status_id } = req.body;
 
   try {
@@ -187,11 +178,7 @@ export const update = async (req, res, next) => {
              status_id = COALESCE(?, status_id),
              updated_at = NOW()
          WHERE id = ? AND project_id = ?`,
-<<<<<<< Updated upstream
-      [title, description, status_id, taskId, projectId]
-=======
       [title ?? null, description ?? null, status_id ?? null, taskId, projectId]
->>>>>>> Stashed changes
     );
 
     // Fetch the updated task
@@ -201,14 +188,11 @@ export const update = async (req, res, next) => {
          WHERE id = ?`,
       [taskId]
     );
-<<<<<<< Updated upstream
-=======
 
     if (req.io) {
       req.io.to(`project_${projectId}`).emit("taskUpdated", rows[0]);
     }
 
->>>>>>> Stashed changes
     res.json(rows[0]);
   } catch (error) {
     next(error);
@@ -216,10 +200,6 @@ export const update = async (req, res, next) => {
 };
 
 /**
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
  * Delete a task from a project
  * @route DELETE /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
