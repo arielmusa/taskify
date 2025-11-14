@@ -7,7 +7,7 @@ It includes authentication, real time updates with Socket.io and a kanban board 
 
 Docker + Docker Compose
 
-(Optional) Node.js 18+ for local development
+(Optional) Node.js 22+ for local development
 
 ## Run Locally
 
