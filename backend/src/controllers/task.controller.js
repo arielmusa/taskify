@@ -138,8 +138,6 @@ export const store = async (req, res, next) => {
 };
 
 /**
-<<<<<<< Updated upstream
-=======
  * Update a task in a project
  * @route PUT /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
@@ -202,7 +200,6 @@ export const update = async (req, res, next) => {
 };
 
 /**
->>>>>>> Stashed changes
  * Delete a task from a project
  * @route DELETE /api/tenants/:tenantId/projects/:projectId/tasks/:taskId
  * @access Private
