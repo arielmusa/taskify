@@ -1,6 +1,6 @@
-# PLAZA - TODO
+# Taskify
 
-Plaza Todo is a multi-tenant task management system.
+multi-tenant task management system.
 It includes authentication, real time updates with Socket.io and a kanban board per project.
 
 ## Requirements
