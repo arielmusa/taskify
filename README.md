@@ -14,7 +14,7 @@ Docker + Docker Compose
 Clone the project
 
 ```bash
-  git clone https://github.com/arielmusa/plaza-todo.git
+  git clone https://github.com/arielmusa/taskify.git
 ```
 
 Go to the project directory
